@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:'Courier New', Courier, monospace;
+    white-space: nowrap;
+}
+
+:root {
+    --header-bg: rgb(32, 110, 243);
+    --button-bg: rgb(37, 178, 37);
+    --button-bg-hover: rgb(23, 140, 23);
+}
+
+header {
+    background-color: var(--header-bg);
+    padding: 1.5rem;
+    color: white;
+    display: grid;
+    place-content: center;
+    font-size: 2.3rem;
+}
+
+main {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.dataDisplay {
+    background-color: lightgray;
+    width: max(50%, 500px);
+    padding: 2rem 0;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    border: 3px solid black;
+}
+
+h2 {
+    font-weight: 900;
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-weight: 800;
+    font-size: 2rem;
+}
+
+p {
+   font-weight: 600;
+   font-size: 1.3rem;
+}
+
+.dataWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+span {
+    color: var(--header-bg);
+}
+
+button {
+    padding: 1rem;
+    font-size: 1.5rem;
+    border-radius: 15px;
+    font-weight: 700;
+    background-color: var(--button-bg);
+    color: white;
+    border: 2px solid black
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: var(--button-bg-hover);
+}
+
+button span {
+    color: white;
+}
+
+form {
+    display: flex;
+    gap: 0.6rem;
+}
+
+form p {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+form button {
+    background-color: var(--header-bg);
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+input {
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 20px;
+    border: 1px solid black;
+}
