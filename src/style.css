@@ -10,6 +10,7 @@
     --header-bg: rgb(32, 110, 243);
     --button-bg: rgb(37, 178, 37);
     --button-bg-hover: rgb(23, 140, 23);
+    --search-btn-hover: rgba(55, 132, 233, 0.791);
 }
 
 header {
@@ -30,7 +31,7 @@ main {
 }
 
 .dataDisplay {
-    background-color: lightgray;
+    background-color: rgb(165, 163, 163);
     width: max(50%, 500px);
     padding: 2rem 0;
     border-radius: 15px;
@@ -54,6 +55,10 @@ h3 {
 p {
    font-weight: 600;
    font-size: 1.3rem;
+}
+
+#Condition {
+    white-space: wrap;
 }
 
 .dataWrapper {
@@ -100,6 +105,10 @@ form button {
     background-color: var(--header-bg);
     padding: 0.5rem;
     font-size: 1rem;
+}
+
+form button:hover {
+    background-color: var(--search-btn-hover);
 }
 
 input {

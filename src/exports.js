@@ -7,8 +7,12 @@ function WeatherData(time, condition, temp, precip, humidity) {
 }
 
 async function getWeatherData(location) {
+    //input API key in the fetch request
     try {
-        const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=WYKE9JDDZX2M8G3QCKWW9LNEP`, { mode: 'cors' });
+        const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=`, { mode: 'cors' });
+        if (response.status >= 400) {
+            return "failure";
+        }
         const data = await response.json();
         const weather = new WeatherData(data.currentConditions.datetime,
             data.currentConditions.conditions,
@@ -18,13 +22,16 @@ async function getWeatherData(location) {
         )
         return weather;
     } catch (err) {
-        console.log(err);
+        return "failure";
     }
 }
 
+let temperature;
 let iterations = 0;
 async function displayWeather(location, currentUnit) {
     const WeatherData = await getWeatherData(location);
+
+    document.body.style.backgroundColor = changeBackground(WeatherData);
 
     const head = document.querySelector("#dataHeader");
     const time = document.querySelector("#Time");
@@ -35,6 +42,11 @@ async function displayWeather(location, currentUnit) {
     const unitToggleBtn = document.querySelector("#unitToggle");
     const unit = document.querySelector("#unit");
 
+    if (WeatherData === "failure") {
+        head.textContent = "Not a valid location.";
+        return;
+    }
+
     head.textContent = `Current weather in ${location}:`;
     time.textContent = WeatherData.time;
     temp.textContent = `${WeatherData.temp}°${currentUnit}`;
@@ -42,9 +54,11 @@ async function displayWeather(location, currentUnit) {
     precip.textContent = WeatherData.precip;
     humidity.textContent = WeatherData.humidity;
 
+    temperature = WeatherData.temp;
+
     if (iterations === 0) {
         unitToggleBtn.addEventListener("click", () => {
-            let celsiusConversion = `${(WeatherData.temp - 32) * 0.5555555556}`;
+            let celsiusConversion = `${(temperature - 32) * 0.5555555556}`;
             if (celsiusConversion.length > 4) {
                 celsiusConversion = celsiusConversion.split("");
                 celsiusConversion.splice(4, celsiusConversion.length);
@@ -52,26 +66,42 @@ async function displayWeather(location, currentUnit) {
             }
             (unit.textContent === "Celsius")
                 ? (currentUnit = "C", temp.textContent = `${celsiusConversion}°${currentUnit}`, unit.textContent = "Fahrenheit")
-                : (currentUnit = "F", temp.textContent = `${WeatherData.temp}°${currentUnit}`, unit.textContent = "Celsius");
+                : (currentUnit = "F", temp.textContent = `${temperature}°${currentUnit}`, unit.textContent = "Celsius");
         });
     }
     iterations++;
+}
+
+function changeBackground(data) {
+    switch(data.condition) {
+        case "Clear":
+            return "white";
+        case "Partially cloudy":
+            return "lightgrey";
+        case "Rain":
+        case "Overcast":
+            return "grey";
+        default:
+            return "grey";
+    }
 }
 
 function changeLocation() {
     const form = document.querySelector("form");
     const location = document.querySelector("#location");
     const unit = document.querySelector("#unit");
+    const head = document.querySelector("#dataHeader");
 
     form.addEventListener("submit", (event) => {
         event.preventDefault();
         displayWeather(location.value, "F");
+        head.textContent = "Loading...";
         unit.textContent = "Celsius";
         location.value = "";
     });
 }
 
 export function main() {
-    displayWeather("Beijing", "F");
+    displayWeather("New York City", "F");
     changeLocation();
 }
